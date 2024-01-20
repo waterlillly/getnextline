@@ -6,7 +6,7 @@
 /*   By: lbaumeis <lbaumeis@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/11 11:24:17 by lbaumeis          #+#    #+#             */
-/*   Updated: 2024/01/20 06:25:01 by lbaumeis         ###   ########.fr       */
+/*   Updated: 2024/01/20 06:32:55 by lbaumeis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,10 +74,12 @@ char	*ft_next(char *buf, int fd)
 	{
 		bytes = read(fd, temp, BUFFER_SIZE);
 		if (bytes < 0)
-			return (free(buf), NULL);
+			return (free(buf), buf = NULL, free(temp), NULL);
 		else if (bytes == 0)
 			break ;
 		temp[bytes] = '\0';
+		if (!temp)
+			return (NULL);
 		buf = ft_strjoin(buf, temp);
 		if (!buf)
 			return (NULL);
@@ -96,9 +98,11 @@ char	*get_next_line(int fd)
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
 	if (!buf)
+	{
 		buf = ft_dup("");
-	if (!buf)
-		return (NULL);
+		if (!buf)
+			return (NULL);
+	}
 	buf = ft_next(buf, fd);
 	if (!buf)
 		return (NULL);

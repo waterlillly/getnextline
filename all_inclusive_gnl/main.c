@@ -6,7 +6,7 @@
 /*   By: lbaumeis <lbaumeis@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/20 04:50:52 by lbaumeis          #+#    #+#             */
-/*   Updated: 2024/01/20 06:30:35 by lbaumeis         ###   ########.fr       */
+/*   Updated: 2024/01/20 06:01:56 by lbaumeis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,11 +23,11 @@ int	main(void)
 
 	time (&start);
 	i = 1;
-	fd = open("big_line.txt", O_RDONLY);
+	fd = open("file.txt", O_RDONLY);
 	line = get_next_line(fd);
 	while (line)
 	{
-		printf("LINE %d: %s", i, line);
+		printf("--->LINE %d: %s", i, line);
 		free(line);
 		line = get_next_line(fd);
 		i++;
@@ -37,7 +37,7 @@ int	main(void)
 			break ;
 		}
 	}
-	free(line);
+	printf("[[]]\n\nBUFFER_SIZE: %d[]\nFD: %d[]\n", BUFFER_SIZE, fd);
 	time (&end);
-	return (printf ("\ntime: %.3lf seconds\n", difftime (end, start)), 0);
+	return (free(line), printf ("time: %.3lf seconds[[]]\n\n", difftime (end, start)), 0);
 }

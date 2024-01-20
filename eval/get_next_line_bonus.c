@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lbaumeis <lbaumeis@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/11 11:24:17 by lbaumeis          #+#    #+#             */
-/*   Updated: 2024/01/20 08:26:32 by lbaumeis         ###   ########.fr       */
+/*   Updated: 2024/01/20 12:58:53 by lbaumeis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ char	*ft_next(char *buf, int fd)
 
 char	*get_next_line(int fd)
 {
-	static char	*buf = NULL;	
+	static char	*buf[1024];	
 	char		*next;
 	int			x;
 
@@ -97,20 +97,20 @@ char	*get_next_line(int fd)
 	x = 0;
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
-	if (!buf)
+	if (!buf[fd])
 	{
-		buf = ft_dup("");
-		if (!buf)
+		buf[fd] = ft_dup("");
+		if (!buf[fd])
 			return (NULL);
 	}
-	buf = ft_next(buf, fd);
-	if (!buf)
+	buf[fd] = ft_next(buf[fd], fd);
+	if (!buf[fd])
 		return (NULL);
-	next = ft_buf(buf, &x);
+	next = ft_buf(buf[fd], &x);
 	if (!next)
-		return (free(buf), buf = NULL, NULL);
-	buf = ft_rest(x, buf);
-	if (!buf)
+		return (free(buf[fd]), buf[fd] = NULL, NULL);
+	buf[fd] = ft_rest(x, buf[fd]);
+	if (!buf[fd])
 		return (free(next), NULL);
 	return (next);
 }
