@@ -1,0 +1,28 @@
+char	*ft_duplicate(char *str, ssize_t start, ssize_t end)
+{
+	char	*dup;
+	ssize_t	len;
+	ssize_t	count;
+
+	if (!str)
+		return (NULL);
+	if (end == -1)
+		end = ft_strlen(str);
+	if (end >= start && start >= 0)
+		len = end - start;
+	else
+		return (NULL);
+	count = 0;
+	dup = NULL;
+	dup = malloc(sizeof(char) * (len + 1));
+	if (!dup)
+		return (NULL);
+	while (count <= len)
+	{
+		dup[count] = str[start];
+		start++;
+		count++;
+	}
+	dup[count] = '\0';
+	return (dup);
+}
