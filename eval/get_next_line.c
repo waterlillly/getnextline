@@ -89,7 +89,7 @@ char	*ft_next(char *buf, int fd)
 
 char	*get_next_line(int fd)
 {
-	static char	*buf[1024];	
+	static char	*buf = NULL;	
 	char		*next;
 	int			x;
 
@@ -97,20 +97,20 @@ char	*get_next_line(int fd)
 	x = 0;
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
-	if (!buf[fd])
+	if (!buf)
 	{
-		buf[fd] = ft_dup("");
-		if (!buf[fd])
+		buf = ft_dup("");
+		if (!buf)
 			return (NULL);
 	}
-	buf[fd] = ft_next(buf[fd], fd);
-	if (!buf[fd])
+	buf = ft_next(buf, fd);
+	if (!buf)
 		return (NULL);
-	next = ft_buf(buf[fd], &x);
+	next = ft_buf(buf, &x);
 	if (!next)
-		return (free(buf[fd]), buf[fd] = NULL, NULL);
-	buf[fd] = ft_rest(x, buf[fd]);
-	if (!buf[fd])
+		return (free(buf), buf = NULL, NULL);
+	buf = ft_rest(x, buf);
+	if (!buf)
 		return (free(next), NULL);
 	return (next);
 }
